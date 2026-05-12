@@ -15,9 +15,11 @@ $ conda activate Sotfbear
 
 3. Despues de crear nuestro entorno virtual clonamos el repositorio
 
-## Uso
+## Forma de trabajo
 
-Estaremos trabajando en diversas ramas para llevar la correcta organizacion del proyecto
+- Estaremos trabajando en diversas ramas para llevar la correcta organizacion del proyecto
+- Haremos diferentes ramas para el back y el front
+- Se hara un pull request antes de integrar los cambios a una de las ramas principales para que no haya problema
 
 ## Integrantes
 
