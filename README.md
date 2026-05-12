@@ -21,8 +21,8 @@ Estaremos trabajando en diversas ramas para llevar la correcta organizacion del 
 
 ## Integrantes
 
-Lechuga Hervert Maximiliano (Scrum Master) 
-Díaz Reyes Lilith Jaquelin (Product Owner)
-Hernández Islas Leonardo Daniel (Developer)
-Camacho Gutiérrez Karla Alejandra  (Developer)
-Vargas Herrera Eduardo  (Developer)
+- Lechuga Hervert Maximiliano (Scrum Master) 
+- Díaz Reyes Lilith Jaquelin (Product Owner)
+- Hernández Islas Leonardo Daniel (Developer)
+- Camacho Gutiérrez Karla Alejandra  (Developer)
+- Vargas Herrera Eduardo  (Developer)
