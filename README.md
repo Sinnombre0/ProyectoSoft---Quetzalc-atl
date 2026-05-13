@@ -4,16 +4,16 @@ Desarrollaremos un sistema para el Festival de las Luciernagas como parte de nue
 
 ## Instalación
 
-1. Creamos un entorno virtual tomando los requerimientos del archivo environment.yml 
+1. Clonamos el repositorio
+
+2. Creamos un entorno virtual tomando los requerimientos del archivo environment.yml 
 (Lo descargamos del repositorio)
 
 $ conda env create -f environment.yml
 
-2. Activamos nuestro environment de conda con
+3. Activamos nuestro environment de conda con
 
 $ conda activate Sotfbear
-
-3. Despues de crear nuestro entorno virtual clonamos el repositorio
 
 ## Forma de trabajo
 
