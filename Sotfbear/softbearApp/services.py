@@ -1,0 +1,1 @@
+# Logica del negocio de la aplicacion, como funciones para manejar datos, etc.
