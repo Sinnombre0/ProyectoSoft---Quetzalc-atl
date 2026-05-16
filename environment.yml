@@ -1,0 +1,18 @@
+# Define AQUI el nombre del entorno virtual de Conda que se creará
+name: Softbear
+
+#Especificamos el canal (repositorios) de donde Conda descargará los paquetes
+channels:
+  - defaults
+# Lista de todas las dependencias a descargar
+dependencies:
+  - python=3.12.8
+  - pip:
+    - django==6.0.1
+    - django-crispy-forms==2.3 
+    - django-environ==0.11.2
+    - django-leaflet 
+
+# Define la ruta base donde Conda está instalado en TU SISTEMA
+# prefix: /Users/TuUsuario/miniconda3
+prefix: /home/ShaggyLec/miniconda3
