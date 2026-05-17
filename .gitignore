@@ -32,9 +32,6 @@ db.sqlite3
 # =====================
 # Django
 # =====================
-/staticfiles/
-/mediafiles/
-/media/
 *.log
 local_settings.py
 
