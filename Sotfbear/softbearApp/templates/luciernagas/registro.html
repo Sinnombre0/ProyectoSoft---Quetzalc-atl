@@ -1,0 +1,84 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Crear cuenta · Luciérnagas 2026{% endblock %}
+
+{% block content %}
+
+  <section class="section auth-section">
+    <h1 class="auth-title text-glow">Crea tu cuenta</h1>
+    <p class="auth-sub">Unos datos y serás parte del festival ✨</p>
+
+    <div class="glass-card auth-card">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" action="{% url 'registro' %}" class="auth-form">
+        {% csrf_token %}
+
+        <div class="field-row">
+          <label class="field-label">
+            <span class="field-name">Nombre</span>
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Lumi"
+              class="field-input"
+              autocomplete="given-name"
+              required
+            />
+          </label>
+          <label class="field-label">
+            <span class="field-name">Apellidos</span>
+            <input
+              type="text"
+              name="apellidos"
+              placeholder="Estelar"
+              class="field-input"
+              autocomplete="family-name"
+              required
+            />
+          </label>
+        </div>
+
+        <label class="field-label">
+          <span class="field-name">Correo</span>
+          <input
+            type="email"
+            name="email"
+            placeholder="tu@correo.com"
+            class="field-input"
+            autocomplete="email"
+            required
+          />
+        </label>
+
+        <label class="field-label">
+          <span class="field-name">Contraseña</span>
+          <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            class="field-input"
+            autocomplete="new-password"
+            required
+          />
+        </label>
+
+        <button type="submit" class="btn-primary btn-full">
+          Crear cuenta ✨
+        </button>
+
+        <p class="auth-footer-text">
+          ¿Ya tienes cuenta?
+          <a href="{% url 'login' %}" class="link-accent">Inicia sesión</a>
+        </p>
+
+      </form>
+    </div>
+  </section>
+
+{% endblock %}

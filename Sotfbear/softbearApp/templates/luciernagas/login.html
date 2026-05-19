@@ -1,0 +1,59 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Iniciar sesión · Luciérnagas 2026{% endblock %}
+
+{% block content %}
+
+  <section class="section auth-section">
+    <h1 class="auth-title text-glow">Bienvenido de vuelta</h1>
+    <p class="auth-sub">Las luciérnagas te estaban esperando 🌙</p>
+
+    <div class="glass-card auth-card">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}" class="auth-form">
+        {% csrf_token %}
+
+        <label class="field-label">
+          <span class="field-name">Correo electrónico</span>
+          <input
+            type="email"
+            name="email"
+            placeholder="tu@correo.com"
+            class="field-input"
+            autocomplete="email"
+            required
+          />
+        </label>
+
+        <label class="field-label">
+          <span class="field-name">Contraseña</span>
+          <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            class="field-input"
+            autocomplete="current-password"
+            required
+          />
+        </label>
+
+        <button type="submit" class="btn-primary btn-full">
+          Iniciar sesión ✨
+        </button>
+
+        <p class="auth-footer-text">
+          ¿No tienes cuenta?
+          <a href="{% url 'registro' %}" class="link-accent">Regístrate</a>
+        </p>
+
+      </form>
+    </div>
+  </section>
+
+{% endblock %}

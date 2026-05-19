@@ -15,4 +15,4 @@ dependencies:
 
 # Define la ruta base donde Conda está instalado en TU SISTEMA
 # prefix: /Users/TuUsuario/miniconda3
-prefix: /home/ShaggyLec/miniconda3
+#prefix: /home/ShaggyLec/miniconda3

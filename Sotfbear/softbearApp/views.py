@@ -1,8 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import admin
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Parque, Reservacion
 
 from . import views
 
@@ -11,35 +15,58 @@ from .forms import SignUpForm, LoginForm
 
 
 # Create your views here.
-def pagina_principal(request):
-    return render(request, 'pagina_principal.html')
+def index(request):
+    return render(request, 'luciernagas/index.html')
 
-#Creamos la vista para el login
-def login(request):
-    signup_form = SignUpForm()
-    login_form = LoginForm()
-    active_tab = 'login'  # tab activo por defecto
-
+def login_view(request):
     if request.method == 'POST':
+        email    = request.POST['email']
+        password = request.POST['password']
 
-        if 'signup_submit' in request.POST:
-            signup_form = SignUpForm(request.POST)
-            active_tab = 'signup'
-            if signup_form.is_valid():
-                user = signup_form.save()
-                login(request, user)
-                return redirect('softbearApp:pagina_principal')  # redirige a la página principal después de registrarse
+        user = authenticate(request, username=email, password=password)
+        if user:
+            login(request, user)
+            return redirect('mis_reservaciones')
+        messages.error(request, 'Correo o contraseña incorrectos.')
 
-        elif 'login_submit' in request.POST:
-            login_form = LoginForm(request, data=request.POST)
-            active_tab = 'login'
-            if login_form.is_valid():
-                user = login_form.get_user()
-                login(request, user)
-                return redirect('softbearApp:pagina_principal')  # redirige a la página principal después de iniciar sesión
+    return render(request, 'luciernagas/login.html')
 
-    return render(request, 'login.html', {
-        'signup_form': signup_form,
-        'login_form': login_form,
-        'active_tab': active_tab,
-    })
+def logout_view(request):
+    logout(request)
+    return redirect('index')
+
+def registro(request):
+    if request.method == 'POST':
+        nombre   = request.POST['nombre']
+        apellidos = request.POST['apellidos']
+        email    = request.POST['email']
+        password = request.POST['password']
+
+        # Verificar que el correo no esté ya registrado
+        if User.objects.filter(username=email).exists():
+            messages.error(request, 'Ya existe una cuenta con ese correo.')
+            return render(request, 'luciernagas/registro.html')
+
+        # Crear el usuario
+        user = User.objects.create_user(
+            username=email,       # usamos el email como username
+            email=email,
+            password=password,
+            first_name=nombre,
+            last_name=apellidos,
+        )
+
+        # Iniciar sesión automáticamente
+        login(request, user)
+        return redirect('index')
+
+    return render(request, 'luciernagas/registro.html')
+
+def parques(request):
+    parques_qs = Parque.objects.all()
+    return render(request, 'luciernagas/parques.html', {'parques': parques_qs})
+
+@login_required
+def mis_reservaciones(request):
+    reservas = Reservacion.objects.filter(usuario=request.user).select_related('parque')
+    return render(request, 'luciernagas/mis_reservaciones.html', {'reservas': reservas})

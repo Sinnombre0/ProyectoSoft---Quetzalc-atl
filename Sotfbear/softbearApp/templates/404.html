@@ -1,0 +1,16 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}404 · Esta luciérnaga se perdió{% endblock %}
+
+{% block content %}
+  <section class="section error-section">
+    <div class="glass-card error-card">
+      <h1 class="error-code text-primary text-glow">404</h1>
+      <h2 class="error-title">Esta luciérnaga se perdió</h2>
+      <p class="error-desc">La página que buscas voló a otro parque.</p>
+      <a href="{% url 'index' %}" class="btn-primary btn-lg">
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+{% endblock %}

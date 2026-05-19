@@ -1,0 +1,26 @@
+[
+{
+  "model": "softbearApp.parque",
+  "pk": 1,
+  "fields": {
+    "nombre": "Mirador Lumi",
+    "direccion": "Calpulalpan, Tlaxcala",
+    "horario": "20:30 – 23:30",
+    "x": 35,
+    "y": 78,
+    "servicios": "Cabaña,Camping,Restaurante"
+  }
+},
+{
+  "model": "softbearApp.parque",
+  "pk": 2,
+  "fields": {
+    "nombre": "Valle Estelar",
+    "direccion": "San Felipe, Tlaxcala",
+    "horario": "20:00 – 23:00",
+    "x": 82,
+    "y": 70,
+    "servicios": "Camping,Sendero"
+  }
+}
+]
