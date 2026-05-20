@@ -14,12 +14,9 @@
 
       <!-- Mapa -->
       <div class="glass-card mapa-card" id="mapa">
-        <!-- Atmósfera del mapa -->
         <div class="mapa-atmosphere" aria-hidden="true"></div>
-        <!-- Cuadrícula decorativa -->
         <div class="mapa-grid-lines" aria-hidden="true"></div>
 
-        <!-- Pins: posición con % del CSS inline, datos en data-* -->
         {% for parque in parques %}
         <button
           class="pin-btn"
@@ -29,7 +26,10 @@
           data-dir="{{ parque.direccion }}"
           data-horario="{{ parque.horario }}"
           data-servicios="{{ parque.servicios_list|join:',' }}"
-          data-reserva-url="#" {# TODO: cambiar por {% url 'reservar' parque.id %} cuando se implemente la vista #}
+          data-tiene-cabanas="{{ parque.tiene_cabanas|yesno:'true,false' }}"
+          data-capacidad-cabanas="{{ parque.capacidad_cabanas }}"
+          data-capacidad-camping="{{ parque.capacidad_camping }}"
+          data-reserva-url="#"  {# TODO: {% url 'reservar' parque.id %} cuando se implemente la vista #}
           aria-label="{{ parque.nombre }}"
         >
           <span class="pin-dot pulse"></span>
@@ -44,6 +44,8 @@
         <h2 class="info-nombre" id="info-nombre">—</h2>
         <p class="info-meta" id="info-dir">📍 Selecciona un parque en el mapa</p>
         <p class="info-meta" id="info-horario"></p>
+        <p class="info-meta" id="info-cabanas"></p>
+        <p class="info-meta" id="info-capacidad"></p>
 
         <div class="info-servicios" id="info-servicios-wrap">
           <p class="servicios-label">Servicios</p>
@@ -62,24 +64,32 @@
 
 {% block extra_scripts %}
 <script>
-  // ── Interactividad del mapa de parques ──
   const pins   = document.querySelectorAll(".pin-btn");
   const nombre = document.getElementById("info-nombre");
   const dir    = document.getElementById("info-dir");
   const hora   = document.getElementById("info-horario");
   const svcs   = document.getElementById("info-servicios");
   const btn    = document.getElementById("info-reserva-btn");
+  const cabanas   = document.getElementById("info-cabanas");
+  const capacidad = document.getElementById("info-capacidad");
 
   pins.forEach(pin => {
     pin.addEventListener("click", () => {
-      // Quitar activo previo
       pins.forEach(p => p.querySelector(".pin-dot").classList.remove("active"));
       pin.querySelector(".pin-dot").classList.add("active");
 
-      // Rellenar tarjeta
       nombre.textContent = pin.dataset.nombre;
       dir.textContent    = "📍 " + pin.dataset.dir;
       hora.textContent   = "🕘 " + pin.dataset.horario;
+
+      // Cabañas y capacidad
+      const tieneCabanas = pin.dataset.tieneCabanas === "true";
+      cabanas.textContent = tieneCabanas
+        ? "🏠 Tiene cabañas disponibles"
+        : "⛺ Solo camping";
+      capacidad.textContent = tieneCabanas
+        ? `Capacidad: ${pin.dataset.capacidadCabanas} cabañas · ${pin.dataset.capacidadCamping} camping`
+        : `Capacidad camping: ${pin.dataset.capacidadCamping} lugares`;
 
       // Badges de servicios
       svcs.innerHTML = pin.dataset.servicios
@@ -87,13 +97,11 @@
         .map(s => `<span class="badge-service">${s.trim()}</span>`)
         .join("");
 
-      // Botón de reserva
       btn.href = pin.dataset.reservaUrl;
       btn.style.display = "block";
     });
   });
 
-  // Seleccionar el primero por defecto
   if (pins.length) pins[0].click();
 </script>
 {% endblock %}

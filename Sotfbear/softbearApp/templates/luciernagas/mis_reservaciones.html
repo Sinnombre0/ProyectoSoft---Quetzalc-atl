@@ -16,29 +16,32 @@
       <article class="glass-card reserva-card">
 
         <div class="reserva-info">
-          <span class="reserva-tipo text-accent text-neon">{{ reserva.tipo }}</span>
+          <span class="reserva-tipo text-accent text-neon">{{ reserva.get_tipo_visita_display }}</span>
           <h2 class="reserva-parque">{{ reserva.parque.nombre }}</h2>
           <p class="reserva-meta">
-            📅 {{ reserva.fecha_inicio|date:"d/m/Y" }} ·
-            🌙 {{ reserva.noches }} noche{{ reserva.noches|pluralize }} ·
-            👥 {{ reserva.personas }} persona{{ reserva.personas|pluralize }}
+            📅 {{ reserva.fecha_inicio|date:"d/m/Y" }} → {{ reserva.fecha_termino|date:"d/m/Y" }} ·
+            👥 {{ reserva.num_personas }} persona{{ reserva.num_personas|pluralize }}
+          </p>
+          <p class="reserva-meta">
+            Estado:
+            <span class="reserva-estado {% if reserva.estado == 'ACTIVA' %}estado-activa{% else %}estado-cancelada{% endif %}">
+              {{ reserva.get_estado_display }}
+            </span>
           </p>
         </div>
 
         <div class="reserva-actions">
-          <a href="{% url 'detalle_reservacion' reserva.id %}" class="btn-ghost btn-sm">
-            Detalles
-          </a>
+          {% if reserva.estado == 'ACTIVA' %}
           <form method="post" action="{% url 'cancelar_reservacion' reserva.id %}"
                 onsubmit="return confirm('¿Cancelar esta reserva?')">
             {% csrf_token %}
             <button type="submit" class="btn-danger btn-sm">Cancelar</button>
           </form>
+          {% endif %}
         </div>
 
       </article>
       {% empty %}
-      <!-- Estado vacío -->
       <div class="glass-card empty-state">
         <div class="empty-icon">🌑</div>
         <h3 class="empty-title">Aún no tienes reservas</h3>

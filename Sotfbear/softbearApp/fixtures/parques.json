@@ -1,26 +1,77 @@
 [
-{
-  "model": "softbearApp.parque",
-  "pk": 1,
-  "fields": {
-    "nombre": "Mirador Lumi",
-    "direccion": "Calpulalpan, Tlaxcala",
-    "horario": "20:30 – 23:30",
-    "x": 35,
-    "y": 78,
-    "servicios": "Cabaña,Camping,Restaurante"
+  {
+    "model": "softbearApp.parque",
+    "pk": 1,
+    "fields": {
+      "nombre": "Piedra Canteada",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Cabaña,Camping,Guías",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 10,
+      "capacidad_camping": 30,
+      "x": 22,
+      "y": 35
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 2,
+    "fields": {
+      "nombre": "Santuario Luciérnaga",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Camping,Comedor",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 40,
+      "x": 48,
+      "y": 58
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 3,
+    "fields": {
+      "nombre": "Bosque de Encinos",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 00:00",
+      "servicios": "Cabaña,Camping",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 8,
+      "capacidad_camping": 25,
+      "x": 70,
+      "y": 28
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 4,
+    "fields": {
+      "nombre": "Valle Estelar",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Camping,Sendero",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 35,
+      "x": 82,
+      "y": 70
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 5,
+    "fields": {
+      "nombre": "Mirador Lumi",
+      "direccion": "Calpulalpan, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Cabaña,Camping,Restaurante",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 15,
+      "capacidad_camping": 20,
+      "x": 35,
+      "y": 78
+    }
   }
-},
-{
-  "model": "softbearApp.parque",
-  "pk": 2,
-  "fields": {
-    "nombre": "Valle Estelar",
-    "direccion": "San Felipe, Tlaxcala",
-    "horario": "20:00 – 23:00",
-    "x": 82,
-    "y": 70,
-    "servicios": "Camping,Sendero"
-  }
-}
 ]
