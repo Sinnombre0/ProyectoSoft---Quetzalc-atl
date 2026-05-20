@@ -81,7 +81,9 @@
 
   /* ── Loop ── */
   function loop(t) {
-    ctx.clearRect(0, 0, W, H);
+    // Modificacion al color del fondo por un azul de medianoche
+    ctx.fillStyle = `oklch(0.22 0.12 250)`; 
+    ctx.fillRect(0, 0, W, H);
     flies.forEach(f => drawFly(f, t));
     requestAnimationFrame(loop);
   }

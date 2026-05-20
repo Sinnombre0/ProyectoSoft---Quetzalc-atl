@@ -11,56 +11,43 @@ from .models import Parque, Reservacion
 from . import views
 
 # Importamos los formularios que creamos
-from .forms import SignUpForm, LoginForm
+from .forms import FormularioRegistro, FormularioInicioSesion
 
 
 # Create your views here.
 def index(request):
     return render(request, 'luciernagas/index.html')
 
-def login_view(request):
-    if request.method == 'POST':
-        email    = request.POST['email']
-        password = request.POST['password']
+def vista_iniciar_sesion(request):
+    form = FormularioInicioSesion(data=request.POST or None)
 
-        user = authenticate(request, username=email, password=password)
-        if user:
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
             return redirect('mis_reservaciones')
         messages.error(request, 'Correo o contraseña incorrectos.')
 
-    return render(request, 'luciernagas/login.html')
+    return render(request, 'luciernagas/login.html', {'form': form})
 
-def logout_view(request):
+
+def vista_cerrar_sesion(request):
     logout(request)
     return redirect('index')
 
-def registro(request):
+
+def vista_registro(request):
+    form = FormularioRegistro(request.POST or None)
+
     if request.method == 'POST':
-        nombre   = request.POST['nombre']
-        apellidos = request.POST['apellidos']
-        email    = request.POST['email']
-        password = request.POST['password']
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+        # Los errores del form (email duplicado, contraseñas distintas, etc.)
+        # se renderizan automáticamente en el template con {{ form.errors }}
 
-        # Verificar que el correo no esté ya registrado
-        if User.objects.filter(username=email).exists():
-            messages.error(request, 'Ya existe una cuenta con ese correo.')
-            return render(request, 'luciernagas/registro.html')
-
-        # Crear el usuario
-        user = User.objects.create_user(
-            username=email,       # usamos el email como username
-            email=email,
-            password=password,
-            first_name=nombre,
-            last_name=apellidos,
-        )
-
-        # Iniciar sesión automáticamente
-        login(request, user)
-        return redirect('index')
-
-    return render(request, 'luciernagas/registro.html')
+    return render(request, 'luciernagas/registro.html', {'form': form})
 
 def parques(request):
     parques_qs = Parque.objects.all()

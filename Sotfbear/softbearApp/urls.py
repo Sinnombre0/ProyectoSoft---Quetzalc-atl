@@ -14,9 +14,9 @@ from . import views
 
 urlpatterns = [
     path('',                              views.index,             name='index'),
-    path('login/',                        views.login_view,        name='login'),
-    path('logout/',                       views.logout_view,       name='logout'),
-    path('registro/',                     views.registro,          name='registro'),
+    path('login/',                        views.vista_iniciar_sesion,        name='login'),
+    path('logout/',                       views.vista_cerrar_sesion,       name='logout'),
+    path('registro/',                     views.vista_registro,          name='registro'),
     path('parques/',                      views.parques,           name='parques'),
     path('mis-reservaciones/',            views.mis_reservaciones, name='mis_reservaciones'),
 ]

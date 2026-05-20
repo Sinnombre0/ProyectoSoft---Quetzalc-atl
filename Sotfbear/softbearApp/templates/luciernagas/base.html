@@ -18,12 +18,12 @@
 </head>
 <body>
 
-  <!-- ░░ FONDO ANIMADO DE LUCIÉRNAGAS ░░ -->
+  <!--  FONDO ANIMADO DE LUCIÉRNAGAS -->
   <div class="firefly-bg" aria-hidden="true">
     <canvas id="firefly-canvas"></canvas>
   </div>
 
-  <!-- ░░ NAVBAR ░░ -->
+  <!--  NAVBAR  -->
   <header class="site-header">
     <nav class="nav-inner">
 
@@ -75,12 +75,12 @@
     </nav>
   </header>
 
-  <!-- ░░ CONTENIDO DE LA PÁGINA ░░ -->
+  <!--  CONTENIDO DE LA PÁGINA  -->
   <main class="site-main">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- ░░ FOOTER ░░ -->
+  <!--  FOOTER  -->
   <footer class="site-footer">
     <p>
       Hecho con <span class="text-glow">✦</span> por
@@ -88,7 +88,7 @@
     </p>
   </footer>
 
-  <!-- ░░ MASCOTA LUCIÉRNAGA ░░ -->
+  <!--  MASCOTA LUCIÉRNAGA  -->
   <div class="mascot-container" aria-hidden="true">
     <svg class="mascot-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
       <!-- Alas -->
@@ -116,7 +116,7 @@
     </svg>
   </div>
 
-  <!-- ░░ JS: canvas de luciérnagas ░░ -->
+  <!--  JS: canvas de luciérnagas  -->
   <script src="{% static 'js/fireflies.js' %}"></script>
 
   {% block extra_scripts %}{% endblock %}
