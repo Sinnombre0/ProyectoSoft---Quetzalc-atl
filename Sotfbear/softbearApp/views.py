@@ -13,20 +13,32 @@ from . import views
 # Importamos los formularios que creamos
 from .forms import FormularioRegistro, FormularioInicioSesion
 
+def es_admin(user):
+    return user.is_superuser or user.is_staff
 
-# Create your views here.
 def index(request):
     return render(request, 'luciernagas/index.html')
 
 def vista_iniciar_sesion(request):
-    form = FormularioInicioSesion(data=request.POST or None)
+    form = FormularioInicioSesion(request, data=request.POST or None)
 
     if request.method == 'POST':
+        print("POST data:", request.POST)
+        print("Form válido:", form.is_valid())
+        print("Errores:", form.errors)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('mis_reservaciones')
-        messages.error(request, 'Correo o contraseña incorrectos.')
+
+            if es_admin(user):
+                request.session['_auth_user_backend'] = 'django.contrib.auth.backends.ModelBackend'
+                return redirect('/admin/')
+            else:
+                return redirect('mis_reservaciones')
+
+        else:
+            if not form.errors.as_data().keys() - {'__all__'}:
+                messages.error(request, 'Correo o contraseña incorrectos.')
 
     return render(request, 'luciernagas/login.html', {'form': form})
 
@@ -41,13 +53,17 @@ def vista_registro(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('index')
-        # Los errores del form (email duplicado, contraseñas distintas, etc.)
+            # No se loggea directamente al usuario en caso de que el correo haya sido duplicado,
+            # de esta forma un atacante no puede distinguir entre ambos casos
+            form.save()
+            return redirect('registro_exitoso')
+    # Los errores del form (email duplicado, contraseñas distintas, etc.)
         # se renderizan automáticamente en el template con {{ form.errors }}
 
     return render(request, 'luciernagas/registro.html', {'form': form})
+
+def vista_registro_exitoso(request):
+    return render(request, 'luciernagas/registro_exitoso.html')
 
 def parques(request):
     parques_qs = Parque.objects.all()

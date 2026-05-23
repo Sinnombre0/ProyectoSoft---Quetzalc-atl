@@ -525,6 +525,11 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+.field-error {
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+  display: block;
+}
 .field-input {
   width: 100%;
   border-radius: 1rem;

@@ -22,25 +22,31 @@
         <label class="field-label">
           <span class="field-name">Correo electrónico</span>
           <input
-            type="email"
-            name="email"
-            placeholder="tu@correo.com"
-            class="field-input"
-            autocomplete="email"
-            required
+                  name="username"
+                  placeholder="tu@correo.com"
+                  class="field-input {% if form.username.errors %}field-input--error{% endif %}"
+                  autocomplete="email"
+                  value="{{ form.username.value|default:'' }}"
+                  required
           />
+          {% if form.username.errors %}
+          <span class="field-error">{{ form.username.errors.0 }}</span>
+          {% endif %}
         </label>
 
         <label class="field-label">
           <span class="field-name">Contraseña</span>
           <input
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            class="field-input"
-            autocomplete="current-password"
-            required
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  class="field-input {% if form.password.errors %}field-input--error{% endif %}"
+                  autocomplete="current-password"
+                  required
           />
+          {% if form.password.errors %}
+          <span class="field-error">{{ form.password.errors.0 }}</span>
+          {% endif %}
         </label>
 
         <button type="submit" class="btn-primary btn-full">

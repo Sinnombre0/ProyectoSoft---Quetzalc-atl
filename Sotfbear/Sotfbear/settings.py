@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Librerias de crispy forms
     'crispy_forms',
     'crispy_bootstrap5',
+    'axes'
 ]
 
 # Configuración de crispy forms para usar Bootstrap 5
@@ -58,6 +59,11 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Ruta a la cual redireccionamos
 LOGIN_REDIRECT_URL = "softbearApp:pagina_principal"
 
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,7 +72,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware'
 ]
+
+# Configuración de bloqueo de DDoS
+AXES_FAILURE_LIMIT = 5           # bloquea tras 5 intentos fallidos
+AXES_COOLOFF_TIME = 1            # bloqueo por 1 hora
+AXES_LOCKOUT_PARAMETERS = ['ip_address']  # bloquea por IP
+AXES_RESET_ON_SUCCESS = True     # resetea contador si login exitoso
 
 ROOT_URLCONF = 'Sotfbear.urls'
 
@@ -117,6 +130,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+]
+
+# Bloquear que JavaScript pueda leer la cookie de sesión
+SESSION_COOKIE_HTTPONLY = True
+# Cookie de sesión solo por HTTPS, nunca HTTP para evitar robo de la misma
+SESSION_COOKIE_SECURE = not DEBUG
+# Cookie anti-CSFR solo por HTTPS, nunca HTTP para evitar robo de la misma
+CSRF_COOKIE_SECURE = not DEBUG
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

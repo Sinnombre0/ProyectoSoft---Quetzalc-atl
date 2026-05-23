@@ -4,81 +4,112 @@
 
 {% block content %}
 
-  <section class="section auth-section">
-    <h1 class="auth-title text-glow">Crea tu cuenta</h1>
-    <p class="auth-sub">Unos datos y serás parte del festival ✨</p>
+<section class="section auth-section">
+  <h1 class="auth-title text-glow">Crea tu cuenta</h1>
+  <p class="auth-sub">Unos datos y serás parte del festival ✨</p>
 
-    <div class="glass-card auth-card">
+  <div class="glass-card auth-card">
 
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
 
-      <form method="post" action="{% url 'registro' %}" class="auth-form">
-        {% csrf_token %}
+    <form method="post" action="{% url 'registro' %}" class="auth-form">
+      {% csrf_token %}
 
-        <div class="field-row">
-          <label class="field-label">
-            <span class="field-name">Nombre</span>
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Lumi"
-              class="field-input"
-              autocomplete="given-name"
-              required
-            />
-          </label>
-          <label class="field-label">
-            <span class="field-name">Apellidos</span>
-            <input
-              type="text"
-              name="apellidos"
-              placeholder="Estelar"
-              class="field-input"
-              autocomplete="family-name"
-              required
-            />
-          </label>
-        </div>
-
+      <div class="field-row">
         <label class="field-label">
-          <span class="field-name">Correo</span>
+          <span class="field-name">Nombre</span>
           <input
-            type="email"
-            name="email"
-            placeholder="tu@correo.com"
-            class="field-input"
-            autocomplete="email"
-            required
+                  type="text"
+                  name="first_name"
+                  placeholder="Lumi"
+                  class="field-input {% if form.first_name.errors %}field-input--error{% endif %}"
+                  autocomplete="given-name"
+                  value="{{ form.first_name.value|default:'' }}"
+                  required
           />
+          {% if form.first_name.errors %}
+          <span class="field-error">{{ form.first_name.errors.0 }}</span>
+          {% endif %}
         </label>
 
         <label class="field-label">
-          <span class="field-name">Contraseña</span>
+          <span class="field-name">Apellidos</span>
           <input
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            class="field-input"
-            autocomplete="new-password"
-            required
+                  type="text"
+                  name="last_name"
+                  placeholder="Estelar"
+                  class="field-input {% if form.last_name.errors %}field-input--error{% endif %}"
+                  autocomplete="family-name"
+                  value="{{ form.last_name.value|default:'' }}"
+                  required
           />
+          {% if form.last_name.errors %}
+          <span class="field-error">{{ form.last_name.errors.0 }}</span>
+          {% endif %}
         </label>
+      </div>
 
-        <button type="submit" class="btn-primary btn-full">
-          Crear cuenta ✨
-        </button>
+      <label class="field-label">
+        <span class="field-name">Correo</span>
+        <input
+                type="email"
+                name="email"
+                placeholder="tu@correo.com"
+                class="field-input {% if form.email.errors %}field-input--error{% endif %}"
+                autocomplete="email"
+                value="{{ form.email.value|default:'' }}"
+                required
+        />
+        {% if form.email.errors %}
+        <span class="field-error">{{ form.email.errors.0 }}</span>
+        {% endif %}
+      </label>
 
-        <p class="auth-footer-text">
-          ¿Ya tienes cuenta?
-          <a href="{% url 'login' %}" class="link-accent">Inicia sesión</a>
-        </p>
+      <label class="field-label">
+        <span class="field-name">Contraseña</span>
+        <input
+                type="password"
+                name="password1"
+                placeholder="••••••••"
+                class="field-input {% if form.password1.errors %}field-input--error{% endif %}"
+                autocomplete="new-password"
+                required
+        />
+        {% if form.password1.errors %}
+        <span class="field-error">{{ form.password1.errors.0 }}</span>
+        {% endif %}
+      </label>
 
-      </form>
-    </div>
-  </section>
+      <label class="field-label">
+        <span class="field-name">Confirmar contraseña</span>
+        <input
+                type="password"
+                name="password2"
+                placeholder="••••••••"
+                class="field-input {% if form.password2.errors %}field-input--error{% endif %}"
+                autocomplete="new-password"
+                required
+        />
+        {% if form.password2.errors %}
+        <span class="field-error">{{ form.password2.errors.0 }}</span>
+        {% endif %}
+      </label>
+
+      <button type="submit" class="btn-primary btn-full">
+        Crear cuenta ✨
+      </button>
+
+      <p class="auth-footer-text">
+        ¿Ya tienes cuenta?
+        <a href="{% url 'login' %}" class="link-accent">Inicia sesión</a>
+      </p>
+
+    </form>
+  </div>
+</section>
 
 {% endblock %}

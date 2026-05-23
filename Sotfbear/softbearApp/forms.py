@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 import re
 
 User = get_user_model()
@@ -14,11 +15,13 @@ class FormularioRegistro(forms.ModelForm):
     first_name = forms.CharField(
         label="Nombre",
         max_length=50,
+        min_length=2,
         widget=forms.TextInput(attrs={'autocomplete': 'off'}),
     )
     last_name = forms.CharField(
         label="Apellido",
         max_length=50,
+        min_length=2,
         widget=forms.TextInput(attrs={'autocomplete': 'off'}),
     )
     email = forms.EmailField(
@@ -45,27 +48,31 @@ class FormularioRegistro(forms.ModelForm):
 # Vemos que el nombre y apellido solo tengan letras
     def clean_first_name(self):
         nombre = self.cleaned_data.get('first_name', '').strip()
-        if not nombre.replace(' ', '').isalpha():
+        if not re.match(r"^[A-Za-zÀ-ÿ' -]+$", nombre):
             raise forms.ValidationError("El nombre solo puede contener letras.")
         return nombre.title()          # "juan" → "Juan"
 
     def clean_last_name(self):
         apellido = self.cleaned_data.get('last_name', '').strip()
-        if not apellido.replace(' ', '').isalpha():
+        if not re.match(r"^[A-Za-zÀ-ÿ' -]+$", apellido):
             raise forms.ValidationError("El apellido solo puede contener letras.")
         return apellido.title()
 
 # Verficamos que el correo no esté registrado y lo ponemos en minúscula
     def clean_email(self):
         email = self.cleaned_data.get('email', '').lower().strip()
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Ya existe una cuenta con este correo.")
+        # Guardamos internamente si existe pero no avisamos al usuario para evitar enumeración de usuarios
+        self._email_ya_existe = User.objects.filter(email=email).exists()
         return email
 
 # Verificamos que la contraseña sea segura
     def clean_password1(self):
         password = self.cleaned_data.get('password1', '')
         errores = []
+
+        # Evitar DoS por medio de contraseñas extremadamente largas
+        if len(password) > 128:
+            raise forms.ValidationError("La contraseña no puede tener más de 128 caracteres")
 
         if len(password) < 8:
             errores.append("debe tener al menos 8 caracteres")
@@ -101,15 +108,31 @@ class FormularioRegistro(forms.ModelForm):
     # ------------------------------------------------------------------ #
 
     def save(self, commit=True):
-        user = User(
-            username=self.cleaned_data['email'],
-            email=self.cleaned_data['email'],
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-        )
+        if getattr(self, '_email_ya_existe', False):
+            return None
+
+        user = super().save(commit=False)
+        email = self.cleaned_data['email']
+        user.email = email
+        # Se guarda el email como username
+        user.username = email
+
+        # Argon2 se usa automáticamente por configuración
         user.set_password(self.cleaned_data['password1'])
+
+        # Seguridad para verificación en el login
+        user.is_active = True
+        user.is_staff = False
+        user.is_superuser = False
+
         if commit:
-            user.save()
+            try:
+                user.save()
+            except IntegrityError:
+                # Otro usuario se registró con ese correo justo antes, se ignora
+                # Evitar Race Condition
+                return None
+
         return user
 
 
