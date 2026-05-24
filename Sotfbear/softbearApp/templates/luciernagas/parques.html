@@ -60,16 +60,74 @@
     </div>
   </section>
 
+  <!-- Modal de reserva -->
+<div class="modal-overlay" id="modal-reserva" style="display:none;">
+  <div class="glass-card modal-card">
+
+    <button class="modal-close" id="modal-cerrar">✕</button>
+
+    <span class="info-tag text-accent text-neon">Nueva reservación</span>
+    <h2 class="info-nombre" id="modal-nombre">—</h2>
+    <p class="info-meta" id="modal-dir"></p>
+
+    {% if user.is_authenticated %}
+    <form method="post" id="form-reserva" class="auth-form" style="margin-top:1rem;">
+      {% csrf_token %}
+      <input type="hidden" name="parque_id" id="modal-parque-id" value="">
+
+      <label class="field-label">
+        <span class="field-name">Fecha de llegada</span>
+        <input type="date" name="fecha_inicio" id="modal-fecha-inicio"
+               class="field-input" min="2026-06-01" max="2026-08-31" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Fecha de salida</span>
+        <input type="date" name="fecha_termino" id="modal-fecha-termino"
+               class="field-input" min="2026-06-01" max="2026-08-31" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Número de personas</span>
+        <input type="number" name="num_personas"
+               class="field-input" min="1" max="20" value="1" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Tipo de visita</span>
+        <select name="tipo_visita" id="modal-tipo" class="field-input">
+          <option value="CAMPING">⛺ Camping</option>
+          <option value="CABANA">🏠 Cabaña</option>
+        </select>
+      </label>
+
+      <button type="submit" class="btn-primary btn-full" style="margin-top:0.5rem;">
+        Confirmar reserva ✨
+      </button>
+    </form>
+
+    {% else %}
+    <div style="text-align:center; margin-top:1.5rem;">
+      <p class="auth-sub">Necesitas iniciar sesión para reservar 🌙</p>
+      <a href="{% url 'login' %}" class="btn-primary" style="margin-top:1rem;">
+        Iniciar sesión
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-  const pins   = document.querySelectorAll(".pin-btn");
-  const nombre = document.getElementById("info-nombre");
-  const dir    = document.getElementById("info-dir");
-  const hora   = document.getElementById("info-horario");
-  const svcs   = document.getElementById("info-servicios");
-  const btn    = document.getElementById("info-reserva-btn");
+  const pins      = document.querySelectorAll(".pin-btn");
+  const nombre    = document.getElementById("info-nombre");
+  const dir       = document.getElementById("info-dir");
+  const hora      = document.getElementById("info-horario");
+  const svcs      = document.getElementById("info-servicios");
+  const btn       = document.getElementById("info-reserva-btn");
   const cabanas   = document.getElementById("info-cabanas");
   const capacidad = document.getElementById("info-capacidad");
 
@@ -82,7 +140,6 @@
       dir.textContent    = "📍 " + pin.dataset.dir;
       hora.textContent   = "🕘 " + pin.dataset.horario;
 
-      // Cabañas y capacidad
       const tieneCabanas = pin.dataset.tieneCabanas === "true";
       cabanas.textContent = tieneCabanas
         ? "🏠 Tiene cabañas disponibles"
@@ -91,17 +148,44 @@
         ? `Capacidad: ${pin.dataset.capacidadCabanas} cabañas · ${pin.dataset.capacidadCamping} camping`
         : `Capacidad camping: ${pin.dataset.capacidadCamping} lugares`;
 
-      // Badges de servicios
       svcs.innerHTML = pin.dataset.servicios
         .split(",")
         .map(s => `<span class="badge-service">${s.trim()}</span>`)
         .join("");
 
-      btn.href = pin.dataset.reservaUrl;
       btn.style.display = "block";
     });
   });
 
   if (pins.length) pins[0].click();
+
+  // ── Modal de reserva ──
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const pin = document.querySelector(".pin-dot.active")?.closest(".pin-btn");
+    if (!pin) return;
+
+    document.getElementById("modal-nombre").textContent = pin.dataset.nombre;
+    document.getElementById("modal-dir").textContent    = "📍 " + pin.dataset.dir;
+
+    const select = document.getElementById("modal-tipo");
+    const tieneCabanas = pin.dataset.tieneCabanas === "true";
+    select.innerHTML = tieneCabanas
+      ? `<option value="CAMPING">⛺ Camping</option>
+         <option value="CABANA">🏠 Cabaña</option>`
+      : `<option value="CAMPING">⛺ Camping</option>`;
+
+    document.getElementById("form-reserva").action = `/reservar/${pin.dataset.id}/`;
+    document.getElementById("modal-reserva").style.display = "flex";
+  });
+
+  // Cerrar modal
+  document.getElementById("modal-cerrar").addEventListener("click", () => {
+    document.getElementById("modal-reserva").style.display = "none";
+  });
+  document.getElementById("modal-reserva").addEventListener("click", (e) => {
+    if (e.target === e.currentTarget)
+      document.getElementById("modal-reserva").style.display = "none";
+  });
 </script>
 {% endblock %}

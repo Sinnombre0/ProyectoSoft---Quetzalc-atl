@@ -68,8 +68,13 @@
 
       <!-- Botones auth -->
       <div class="nav-auth">
-        <a href="{% url 'login' %}" class="btn-ghost">Entrar</a>
-        <a href="{% url 'registro' %}" class="btn-primary">Registro ✨</a>
+        {% if user.is_authenticated %}
+          <span class="nav-greeting">Hola, {{ user.first_name }} ✨</span>
+          <a href="{% url 'logout' %}" class="btn-danger btn-sm">Salir</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn-ghost">Entrar</a>
+          <a href="{% url 'registro' %}" class="btn-primary">Registro ✨</a>
+        {% endif %}
       </div>
 
     </nav>
@@ -77,6 +82,13 @@
 
   <!--  CONTENIDO DE LA PÁGINA  -->
   <main class="site-main">
+    {% if messages %}
+      <div class="section" style="padding-bottom: 0;">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 

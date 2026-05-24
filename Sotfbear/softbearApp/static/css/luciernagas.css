@@ -837,3 +837,60 @@ img { max-width: 100%; display: block; }
 
 .estado-activa    { color: var(--accent); text-shadow: 0 0 12px oklch(0.8 0.2 195 / 0.7); font-weight: 600; }
 .estado-cancelada { color: var(--destructive); font-weight: 600; }
+
+/* ── Estados de reservación ── */
+.estado-activa {
+  color: var(--accent);
+  text-shadow: 0 0 12px oklch(0.8 0.2 195 / 0.7);
+  font-weight: 600;
+}
+.estado-cancelada {
+  color: var(--destructive);
+  font-weight: 600;
+}
+.reserva-cancelada-label {
+  font-size: 0.75rem;
+  color: var(--destructive);
+  font-weight: 500;
+  padding: 0.4rem 0.9rem;
+}
+
+.nav-greeting {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-shadow: 0 0 12px oklch(0.92 0.2 100 / 0.5);
+}
+
+/* ── Modal de reserva ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: oklch(0.1 0.04 150 / 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-card {
+  border-radius: 1.5rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 26rem;
+  position: relative;
+  animation: fade-in 0.25s ease-out both;
+}
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.modal-close:hover { color: var(--foreground); }

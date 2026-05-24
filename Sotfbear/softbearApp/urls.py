@@ -20,4 +20,6 @@ urlpatterns = [
     path('parques/',                      views.parques,           name='parques'),
     path('mis-reservaciones/',            views.mis_reservaciones, name='mis_reservaciones'),
     path('registro/exitoso/',             views.vista_registro_exitoso, name='registro_exitoso'),
+    path('reservar/<int:parque_id>/', views.reservar, name='reservar'),
+    path('reservaciones/<int:pk>/cancelar/', views.cancelar_reservacion, name='cancelar_reservacion'),
 ]
