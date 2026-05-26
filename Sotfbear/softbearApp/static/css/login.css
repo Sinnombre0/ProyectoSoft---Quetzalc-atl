@@ -1,9 +1,4 @@
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Evita scrollbars */
-    position: relative;
-    height: 100vh;
     font-family: Poppins, sans-serif;
 }
 

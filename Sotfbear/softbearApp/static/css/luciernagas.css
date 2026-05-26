@@ -67,12 +67,67 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  font-family: var(--font-body);
-  background: var(--gradient-night);
-  background-attachment: fixed;
-  color: var(--foreground);
+
   min-height: 100vh;
+
   overflow-x: hidden;
+
+  color: var(--foreground);
+
+  font-family: var(--font-body);
+
+  background:
+
+  /* OSCURIDAD SUPERIOR FUERTE */
+  linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.92) 0%,
+    rgba(0,0,0,0.72) 10%,
+    rgba(0,0,0,0.38) 22%,
+    rgba(0,0,0,0.10) 34%,
+    transparent 46%
+  ),
+
+  /* OSCURIDAD INFERIOR FUERTE */
+  linear-gradient(
+    to top,
+    rgba(0,0,0,0.96) 0%,
+    rgba(0,0,0,0.78) 10%,
+    rgba(0,0,0,0.42) 22%,
+    rgba(0,0,0,0.12) 34%,
+    transparent 48%
+  ),
+
+  /* VIÑETA LATERAL */
+  radial-gradient(
+    circle at center,
+    transparent 38%,
+    rgba(0,0,0,0.18) 72%,
+    rgba(0,0,0,0.45) 100%
+  ),
+
+  /* GLOW CENTRAL MÁS SUAVE */
+  radial-gradient(
+    circle at center,
+    rgba(70,120,255,0.10) 0%,
+    transparent 42%
+  ),
+
+  /* FONDO BASE */
+  radial-gradient(
+    ellipse at top,
+    #08338d 0%,
+    #05266d 30%,
+    #03194c 58%,
+    #010b22 100%
+  );
+
+  background-blend-mode:
+  multiply,
+  multiply,
+  normal,
+  screen,
+  normal;
 }
 
 h1, h2, h3, h4 {
@@ -359,6 +414,8 @@ img { max-width: 100%; display: block; }
   display: grid;
   gap: 2.5rem;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 @media (min-width: 48rem) {
   .hero-grid { grid-template-columns: 1fr 1fr; }
@@ -894,3 +951,17 @@ img { max-width: 100%; display: block; }
   transition: color 0.15s;
 }
 .modal-close:hover { color: var(--foreground); }
+
+.site-main {
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.firefly-bg {
+
+  opacity: 0.9;
+
+  mix-blend-mode: screen;
+}
