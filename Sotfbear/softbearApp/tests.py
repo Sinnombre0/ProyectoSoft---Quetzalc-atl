@@ -19,7 +19,7 @@ User = get_user_model()
 
 
 # =========================================================================== #
-#  Helpers reutilizables
+#  Funciones auxiliares
 # =========================================================================== #
 
 def crear_usuario(email='test@example.com', password='Segura123!'):
@@ -48,7 +48,7 @@ def crear_parque(nombre='Parque Test', tiene_cabanas=True,
 # Creamos diferentes fechas para verificar que los martes no se podra hacer reservaciones
 LUNES_JUNIO   = date(2025, 6, 2)   # lunes
 MIERCOLES_JUNIO = date(2025, 6, 4) # miércoles
-MARTES_JUNIO  = date(2025, 6, 3)   # martes — día de mantenimiento
+MARTES_JUNIO  = date(2025, 6, 3)   # martes — mantenimiento
 FECHA_MAYO    = date(2025, 5, 15)  # fuera de tiempo
 
 
@@ -328,10 +328,10 @@ class VistaMisReservacionesTests(TestCase):
 
 
 # =========================================================================== #
-#  5. VISTA RESERVAR — lógica de negocio
+#  5. RESERVACIONES
 # =========================================================================== #
 
-class VistaReservarTests(TestCase):
+class ReservarTests(TestCase):
 
     def setUp(self):
         self.usuario = crear_usuario()
@@ -454,10 +454,10 @@ class VistaReservarTests(TestCase):
 
 
 # =========================================================================== #
-#  6. VISTA CANCELAR RESERVACIÓN
+#  6. CANCELAR RESERVACIÓN
 # =========================================================================== #
 
-class VistaCancelarReservacionTests(TestCase):
+class WCancelarReservacionTests(TestCase):
 
     def setUp(self):
         self.usuario = crear_usuario()
