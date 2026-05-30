@@ -7,10 +7,6 @@ admin.site.site_title = "Softbear Admin"
 admin.site.index_title = "Gestión del Festival de Luciérnagas" 
 
 
-# ==============================================================================
-# CLASES DE CONFIGURACIÓN AVANZADA DE MODELOS (MODELADMIN)
-# ==============================================================================
-
 @admin.register(Parque)
 class ParqueAdmin(admin.ModelAdmin):
     # Columnas organizadas en la tabla principal de parques
