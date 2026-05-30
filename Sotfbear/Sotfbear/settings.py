@@ -57,7 +57,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Ruta a la cual redireccionamos
-LOGIN_REDIRECT_URL = "softbearApp:pagina_principal"
+LOGIN_REDIRECT_URL = "index"
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesStandaloneBackend',
