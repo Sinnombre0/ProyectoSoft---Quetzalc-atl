@@ -145,7 +145,7 @@ const fireflyIcon = L.divIcon({
 const parques = [
 {% for parque in parques %}
 {
-  id: "{{ parque.id }}",
+  id: "{{ parque.id|escapejs }}",
   nombre: "{{ parque.nombre|escapejs }}",
   direccion: "{{ parque.direccion|escapejs }}",
   horario: "{{ parque.horario|escapejs }}",
@@ -153,11 +153,14 @@ const parques = [
   capacidadCabanas: {{ parque.capacidad_cabanas }},
   capacidadCamping: {{ parque.capacidad_camping }},
   tieneCabanas: {{ parque.tiene_cabanas|yesno:"true,false" }},
-  lat: {{ parque.latitud }},
-  lng: {{ parque.longitud }}
-},
+  latitud: {{ parque.latitud }},
+  longitud: {{ parque.longitud }}
+}
+{% if not forloop.last %},{% endif %}
 {% endfor %}
 ];
+console.log("Parques cargados:", parques);
+
 
 /* ---------- markers ---------- */
 
@@ -165,9 +168,7 @@ const parques = [
 parques.forEach(parque => {
 
   const marker = L.marker(
-    [parque.lat, parque.lng],
-    { icon: fireflyIcon }
-  ).addTo(mapa);
+    [parque.latitud, parque.longitud]).addTo(mapa);
 
   marker.on("click", () => {
 
