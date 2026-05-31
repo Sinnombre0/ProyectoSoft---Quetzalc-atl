@@ -9,8 +9,8 @@ class Parque(models.Model):
     tiene_cabanas     = models.BooleanField(default=False)
     capacidad_cabanas = models.IntegerField(default=0)
     capacidad_camping = models.IntegerField(default=0)
-    x = models.IntegerField(default=50)  # % posición mapa visual
-    y = models.IntegerField(default=50)
+    latitud = models.FloatField(default=0)  # % posición mapa visual
+    longitud = models.FloatField(default=0)
 
     def servicios_list(self):
         return [s.strip() for s in self.servicios.split(',')]

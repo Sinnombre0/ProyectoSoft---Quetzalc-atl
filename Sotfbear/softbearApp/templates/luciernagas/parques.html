@@ -14,28 +14,6 @@
 
       <!-- Mapa -->
       <div class="glass-card mapa-card" id="mapa">
-        <div class="mapa-atmosphere" aria-hidden="true"></div>
-        <div class="mapa-grid-lines" aria-hidden="true"></div>
-
-        {% for parque in parques %}
-        <button
-          class="pin-btn"
-          style="left: {{ parque.x }}%; top: {{ parque.y }}%;"
-          data-id="{{ parque.id }}"
-          data-nombre="{{ parque.nombre }}"
-          data-dir="{{ parque.direccion }}"
-          data-horario="{{ parque.horario }}"
-          data-servicios="{{ parque.servicios_list|join:',' }}"
-          data-tiene-cabanas="{{ parque.tiene_cabanas|yesno:'true,false' }}"
-          data-capacidad-cabanas="{{ parque.capacidad_cabanas }}"
-          data-capacidad-camping="{{ parque.capacidad_camping }}"
-          data-reserva-url="#"  {# TODO: {% url 'reservar' parque.id %} cuando se implemente la vista #}
-          aria-label="{{ parque.nombre }}"
-        >
-          <span class="pin-dot pulse"></span>
-          <span class="pin-label">{{ parque.nombre }}</span>
-        </button>
-        {% endfor %}
       </div>
 
       <!-- Tarjeta de info -->
@@ -121,71 +99,188 @@
 {% endblock %}
 
 {% block extra_scripts %}
+
 <script>
-  const pins      = document.querySelectorAll(".pin-btn");
-  const nombre    = document.getElementById("info-nombre");
-  const dir       = document.getElementById("info-dir");
-  const hora      = document.getElementById("info-horario");
-  const svcs      = document.getElementById("info-servicios");
-  const btn       = document.getElementById("info-reserva-btn");
-  const cabanas   = document.getElementById("info-cabanas");
-  const capacidad = document.getElementById("info-capacidad");
 
-  pins.forEach(pin => {
-    pin.addEventListener("click", () => {
-      pins.forEach(p => p.querySelector(".pin-dot").classList.remove("active"));
-      pin.querySelector(".pin-dot").classList.add("active");
+const mapa = L.map("mapa").setView(
+  [19.45, -98.55],
+  10
+);
 
-      nombre.textContent = pin.dataset.nombre;
-      dir.textContent    = "📍 " + pin.dataset.dir;
-      hora.textContent   = "🕘 " + pin.dataset.horario;
+L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  {
+    attribution: "&copy; OpenStreetMap, &copy; CARTO",
+    subdomains: "abcd",
+    maxZoom: 20
+  }
+).addTo(mapa);
 
-      const tieneCabanas = pin.dataset.tieneCabanas === "true";
-      cabanas.textContent = tieneCabanas
-        ? "🏠 Tiene cabañas disponibles"
+
+/* ---------- referencias DOM ---------- */
+
+const nombre = document.getElementById("info-nombre");
+const dir = document.getElementById("info-dir");
+const hora = document.getElementById("info-horario");
+const cabanas = document.getElementById("info-cabanas");
+const capacidad = document.getElementById("info-capacidad");
+const svcs = document.getElementById("info-servicios");
+const btn = document.getElementById("info-reserva-btn");
+
+let parqueSeleccionado = null;
+
+/* ---------- icono luciérnaga ---------- */
+
+const fireflyIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="firefly-marker"></div>
+  `,
+  iconSize: [22,22],
+  iconAnchor: [11,11]
+});
+
+/* ---------- parques ---------- */
+
+const parques = [
+{% for parque in parques %}
+{
+  id: "{{ parque.id }}",
+  nombre: "{{ parque.nombre|escapejs }}",
+  direccion: "{{ parque.direccion|escapejs }}",
+  horario: "{{ parque.horario|escapejs }}",
+  servicios: "{{ parque.servicios|escapejs }}",
+  capacidadCabanas: {{ parque.capacidad_cabanas }},
+  capacidadCamping: {{ parque.capacidad_camping }},
+  tieneCabanas: {{ parque.tiene_cabanas|yesno:"true,false" }},
+  lat: {{ parque.latitud }},
+  lng: {{ parque.longitud }}
+},
+{% endfor %}
+];
+
+/* ---------- markers ---------- */
+
+
+parques.forEach(parque => {
+
+  const marker = L.marker(
+    [parque.lat, parque.lng],
+    { icon: fireflyIcon }
+  ).addTo(mapa);
+
+  marker.on("click", () => {
+
+    parqueSeleccionado = parque;
+
+    nombre.textContent = parque.nombre;
+
+    dir.textContent =
+      "📍 " + parque.direccion;
+
+    hora.textContent =
+      "🕘 " + parque.horario;
+
+    cabanas.textContent =
+      parque.tieneCabanas
+        ? "🏠 Tiene cabañas"
         : "⛺ Solo camping";
-      capacidad.textContent = tieneCabanas
-        ? `Capacidad: ${pin.dataset.capacidadCabanas} cabañas · ${pin.dataset.capacidadCamping} camping`
-        : `Capacidad camping: ${pin.dataset.capacidadCamping} lugares`;
 
-      svcs.innerHTML = pin.dataset.servicios
+    capacidad.textContent =
+      parque.tieneCabanas
+        ? `Capacidad: ${parque.capacidadCabanas} cabañas · ${parque.capacidadCamping} camping`
+        : `Capacidad camping: ${parque.capacidadCamping}`;
+
+    svcs.innerHTML =
+      parque.servicios
         .split(",")
-        .map(s => `<span class="badge-service">${s.trim()}</span>`)
+        .map(
+          s =>
+          `<span class="badge-service">
+            ${s.trim()}
+          </span>`
+        )
         .join("");
 
-      btn.style.display = "block";
-    });
+    btn.style.display = "block";
   });
 
-  if (pins.length) pins[0].click();
+});
 
-  // ── Modal de reserva ──
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const pin = document.querySelector(".pin-dot.active")?.closest(".pin-btn");
-    if (!pin) return;
+/* ---------- modal ---------- */
 
-    document.getElementById("modal-nombre").textContent = pin.dataset.nombre;
-    document.getElementById("modal-dir").textContent    = "📍 " + pin.dataset.dir;
+btn.addEventListener("click", e => {
 
-    const select = document.getElementById("modal-tipo");
-    const tieneCabanas = pin.dataset.tieneCabanas === "true";
-    select.innerHTML = tieneCabanas
-      ? `<option value="CAMPING">⛺ Camping</option>
-         <option value="CABANA">🏠 Cabaña</option>`
-      : `<option value="CAMPING">⛺ Camping</option>`;
+  e.preventDefault();
 
-    document.getElementById("form-reserva").action = `/reservar/${pin.dataset.id}/`;
-    document.getElementById("modal-reserva").style.display = "flex";
-  });
+  if (!parqueSeleccionado)
+    return;
 
-  // Cerrar modal
-  document.getElementById("modal-cerrar").addEventListener("click", () => {
-    document.getElementById("modal-reserva").style.display = "none";
-  });
-  document.getElementById("modal-reserva").addEventListener("click", (e) => {
-    if (e.target === e.currentTarget)
-      document.getElementById("modal-reserva").style.display = "none";
-  });
+  document.getElementById(
+    "modal-nombre"
+  ).textContent =
+    parqueSeleccionado.nombre;
+
+  document.getElementById(
+    "modal-dir"
+  ).textContent =
+    "📍 " + parqueSeleccionado.direccion;
+
+  const select =
+    document.getElementById(
+      "modal-tipo"
+    );
+
+  select.innerHTML =
+    parqueSeleccionado.tieneCabanas
+      ? `
+      <option value="CAMPING">
+        ⛺ Camping
+      </option>
+
+      <option value="CABANA">
+        🏠 Cabaña
+      </option>
+      `
+      : `
+      <option value="CAMPING">
+        ⛺ Camping
+      </option>
+      `;
+
+  document.getElementById(
+    "form-reserva"
+  ).action =
+    `/reservar/${parqueSeleccionado.id}/`;
+
+  document.getElementById(
+    "modal-reserva"
+  ).style.display = "flex";
+
+});
+
+/* ---------- cerrar modal ---------- */
+
+document
+.getElementById("modal-cerrar")
+.addEventListener("click", () => {
+
+  document.getElementById(
+    "modal-reserva"
+  ).style.display = "none";
+
+});
+
+document
+.getElementById("modal-reserva")
+.addEventListener("click", e => {
+
+  if (e.target === e.currentTarget)
+    document.getElementById(
+      "modal-reserva"
+    ).style.display = "none";
+
+});
+
 </script>
 {% endblock %}

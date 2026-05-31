@@ -15,8 +15,18 @@
   <link rel="stylesheet" href="{% static 'css/luciernagas.css' %}" />
 
   {% block extra_head %}{% endblock %}
+
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+  </script>
 </head>
-<body>
+
+  <body>
 
   <!--  FONDO ANIMADO DE LUCIÉRNAGAS -->
   <div class="firefly-bg" aria-hidden="true">

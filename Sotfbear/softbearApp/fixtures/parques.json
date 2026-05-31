@@ -10,8 +10,8 @@
       "tiene_cabanas": true,
       "capacidad_cabanas": 10,
       "capacidad_camping": 30,
-      "x": 22,
-      "y": 35
+      "latitud": 19.4923,
+      "longitud": -98.5367
     }
   },
   {
@@ -25,8 +25,8 @@
       "tiene_cabanas": false,
       "capacidad_cabanas": 0,
       "capacidad_camping": 40,
-      "x": 48,
-      "y": 58
+      "latitud": 19.4923,
+      "longitud": -98.5367
     }
   },
   {
@@ -40,8 +40,8 @@
       "tiene_cabanas": true,
       "capacidad_cabanas": 8,
       "capacidad_camping": 25,
-      "x": 70,
-      "y": 28
+      "latitud": 19.5008,
+      "longitud": -98.5571
     }
   },
   {
@@ -55,8 +55,8 @@
       "tiene_cabanas": false,
       "capacidad_cabanas": 0,
       "capacidad_camping": 35,
-      "x": 82,
-      "y": 70
+      "latitud": 19.6160,
+      "longitud": -98.1180
     }
   },
   {
@@ -70,8 +70,8 @@
       "tiene_cabanas": true,
       "capacidad_cabanas": 15,
       "capacidad_camping": 20,
-      "x": 35,
-      "y": 78
+      "latitud": 19.5885,
+      "longitud": -98.5698
     }
   }
 ]

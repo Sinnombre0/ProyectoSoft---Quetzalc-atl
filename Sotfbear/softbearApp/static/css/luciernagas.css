@@ -643,57 +643,11 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   border-radius: 1.5rem;
 }
-.mapa-atmosphere {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 30% 40%, oklch(0.35 0.12 200 / 0.4), transparent 40%),
-    radial-gradient(circle at 70% 60%, oklch(0.32 0.14 280 / 0.5), transparent 50%);
-}
-.mapa-grid-lines {
-  position: absolute;
-  inset: 0;
-  opacity: 0.3;
-  background-image:
-    linear-gradient(oklch(0.78 0.15 140) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.78 0.15 140) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
+
 
 /* Pins */
-.pin-btn {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-.pin-dot {
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, var(--firefly) 0%, var(--firefly-glow) 40%, transparent 70%);
-  box-shadow: var(--shadow-glow);
-  animation: glow-pulse 2.4s ease-in-out infinite;
-  transition: transform 0.2s ease;
-}
 .pin-dot.active  { transform: scale(1.5); animation: none; }
 .pin-btn:hover .pin-dot { transform: scale(1.25); }
-
-.pin-label {
-  display: none;
-  white-space: nowrap;
-  border-radius: 9999px;
-  background: oklch(0.88 0.17 95 / 0.9);
-  color: var(--primary-foreground);
-  padding: 0.15rem 0.5rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-}
 .pin-dot.active ~ .pin-label { display: block; }
 
 /* Info card */
@@ -964,4 +918,97 @@ img { max-width: 100%; display: block; }
   opacity: 0.9;
 
   mix-blend-mode: screen;
+}
+
+.firefly-marker {
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      #fff59d 0%,
+      #ffee58 40%,
+      #ffd600 70%
+    );
+
+  box-shadow:
+    0 0 10px #ffee58,
+    0 0 20px #ffee58,
+    0 0 40px #ffd600,
+    0 0 70px #ffd600;
+
+  animation:
+    fireflyMarkerPulse
+    2s ease-in-out infinite;
+}
+
+@keyframes fireflyMarkerPulse {
+
+  0%,100% {
+
+    transform: scale(1);
+
+    box-shadow:
+      0 0 10px #ffee58,
+      0 0 20px #ffee58,
+      0 0 40px #ffd600,
+      0 0 70px #ffd600;
+  }
+
+  50% {
+
+    transform: scale(1.25);
+
+    box-shadow:
+      0 0 20px #fff176,
+      0 0 40px #ffee58,
+      0 0 80px #ffd600,
+      0 0 120px #ffd600;
+  }
+}
+
+.firefly-marker {
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: #ffee58;
+
+  box-shadow:
+    0 0 10px #ffee58,
+    0 0 25px #ffee58,
+    0 0 45px #ffd600;
+
+  animation: fireflyPulse 2s infinite;
+}
+
+@keyframes fireflyPulse {
+
+  0%,100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+#mapa {
+
+  width: 100%;
+  height: 600px;
+
+  border-radius: 1.5rem;
+
+  border: 2px solid rgba(255,238,88,.25);
+
+  box-shadow:
+    0 0 25px rgba(255,238,88,.15),
+    inset 0 0 20px rgba(255,238,88,.08);
 }
