@@ -11,8 +11,10 @@ dependencies:
     - django==6.0.1
     - django-crispy-forms==2.3 
     - django-environ==0.11.2
-    - django-leaflet 
+    - django-leaflet
+    - argon2-cffi==25.1.0
+    - django-axes==8.3.1
 
 # Define la ruta base donde Conda está instalado en TU SISTEMA
 # prefix: /Users/TuUsuario/miniconda3
-prefix: /home/ShaggyLec/miniconda3
+#prefix: /home/ShaggyLec/miniconda3

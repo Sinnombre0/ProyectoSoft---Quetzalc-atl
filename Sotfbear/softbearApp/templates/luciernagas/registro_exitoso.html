@@ -1,0 +1,38 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Cuenta creada · Festival Quetzalcoatl 2026{% endblock %}
+
+{% block content %}
+
+<section class="section auth-section">
+    <h1 class="auth-title text-glow">¡Listo! ✨</h1>
+    <p class="auth-sub">Tu información ha sido recibida</p>
+
+    <div class="glass-card auth-card">
+
+        <p class="success-message" style="margin-bottom: 1.5rem;">
+            Si los datos son correctos, tu cuenta ha sido creada.<br>
+            Serás redirigido al login en <span id="cuenta">5</span> segundos...
+        </p>
+
+        <a href="{% url 'login' %}" class="btn-primary btn-full">
+            Ir al login ahora
+        </a>
+
+    </div>
+</section>
+
+<script>
+    let s = 5;
+    const span = document.getElementById('cuenta');
+    const intervalo = setInterval(() => {
+        s--;
+        span.textContent = s;
+        if (s <= 0) {
+            clearInterval(intervalo);
+            window.location.href = "{% url 'login' %}";
+        }
+    }, 1000);
+</script>
+
+{% endblock %}

@@ -1,0 +1,296 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Parques oficiales · Festival Quetzalcoatl 2026{% endblock %}
+
+{% block content %}
+
+  <section class="section parques-section">
+    <h1 class="page-title">
+      Mapa de <span class="text-primary text-glow">parques oficiales</span>
+    </h1>
+    <p class="page-sub">Selecciona un pin luminoso para conocer cada parque.</p>
+
+    <div class="parques-grid">
+
+      <!-- Mapa -->
+      <div class="glass-card mapa-card" id="mapa">
+      </div>
+
+      <!-- Tarjeta de info -->
+      <div class="glass-card info-card" id="parque-info">
+        <span class="info-tag text-accent text-neon">Parque seleccionado</span>
+        <h2 class="info-nombre" id="info-nombre">—</h2>
+        <p class="info-meta" id="info-dir">📍 Selecciona un parque en el mapa</p>
+        <p class="info-meta" id="info-horario"></p>
+        <p class="info-meta" id="info-cabanas"></p>
+        <p class="info-meta" id="info-capacidad"></p>
+
+        <div class="info-servicios" id="info-servicios-wrap">
+          <p class="servicios-label">Servicios</p>
+          <div class="servicios-tags" id="info-servicios"></div>
+        </div>
+
+        <a href="#" class="btn-primary btn-full" id="info-reserva-btn" style="display:none;">
+          Reservar aquí ✨
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Modal de reserva -->
+<div class="modal-overlay" id="modal-reserva" style="display:none;">
+  <div class="glass-card modal-card">
+
+    <button class="modal-close" id="modal-cerrar">✕</button>
+
+    <span class="info-tag text-accent text-neon">Nueva reservación</span>
+    <h2 class="info-nombre" id="modal-nombre">—</h2>
+    <p class="info-meta" id="modal-dir"></p>
+
+    {% if user.is_authenticated %}
+    <form method="post" id="form-reserva" class="auth-form" style="margin-top:1rem;">
+      {% csrf_token %}
+      <input type="hidden" name="parque_id" id="modal-parque-id" value="">
+
+      <label class="field-label">
+        <span class="field-name">Fecha de llegada</span>
+        <input type="date" name="fecha_inicio" id="modal-fecha-inicio"
+               class="field-input" min="2026-06-01" max="2026-08-31" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Fecha de salida</span>
+        <input type="date" name="fecha_termino" id="modal-fecha-termino"
+               class="field-input" min="2026-06-01" max="2026-08-31" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Número de personas</span>
+        <input type="number" name="num_personas"
+               class="field-input" min="1" max="20" value="1" required />
+      </label>
+
+      <label class="field-label">
+        <span class="field-name">Tipo de visita</span>
+        <select name="tipo_visita" id="modal-tipo" class="field-input">
+          <option value="CAMPING">⛺ Camping</option>
+          <option value="CABANA">🏠 Cabaña</option>
+        </select>
+      </label>
+
+      <button type="submit" class="btn-primary btn-full" style="margin-top:0.5rem;">
+        Confirmar reserva ✨
+      </button>
+    </form>
+
+    {% else %}
+    <div style="text-align:center; margin-top:1.5rem;">
+      <p class="auth-sub">Necesitas iniciar sesión para reservar 🌙</p>
+      <a href="{% url 'login' %}" class="btn-primary" style="margin-top:1rem;">
+        Iniciar sesión
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+<script>
+
+const mapa = L.map("mapa").setView(
+  [19.45, -98.55],
+  10
+);
+
+L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  {
+    attribution: "&copy; OpenStreetMap, &copy; CARTO",
+    subdomains: "abcd",
+    maxZoom: 20
+  }
+).addTo(mapa);
+
+
+/* ---------- referencias DOM ---------- */
+
+const nombre = document.getElementById("info-nombre");
+const dir = document.getElementById("info-dir");
+const hora = document.getElementById("info-horario");
+const cabanas = document.getElementById("info-cabanas");
+const capacidad = document.getElementById("info-capacidad");
+const svcs = document.getElementById("info-servicios");
+const btn = document.getElementById("info-reserva-btn");
+
+let parqueSeleccionado = null;
+
+/* ---------- icono luciérnaga ---------- */
+
+const fireflyIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="firefly-marker"></div>
+  `,
+  iconSize: [22,22],
+  iconAnchor: [11,11]
+});
+
+/* ---------- parques ---------- */
+
+const parques = [
+{% for parque in parques %}
+{
+  id: "{{ parque.id|escapejs }}",
+  nombre: "{{ parque.nombre|escapejs }}",
+  direccion: "{{ parque.direccion|escapejs }}",
+  horario: "{{ parque.horario|escapejs }}",
+  servicios: "{{ parque.servicios|escapejs }}",
+  capacidadCabanas: {{ parque.capacidad_cabanas }},
+  capacidadCamping: {{ parque.capacidad_camping }},
+  tieneCabanas: {{ parque.tiene_cabanas|yesno:"true,false" }},
+  latitud: {{ parque.latitud }},
+  longitud: {{ parque.longitud }}
+}
+{% if not forloop.last %},{% endif %}
+{% endfor %}
+];
+console.log("Parques cargados:", parques);
+
+function crearPin(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="pin-marcador" style="background-color: ${color};"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 24],
+    popupAnchor: [0, -28]
+  });
+}
+
+/* ---------- markers ---------- */
+
+
+parques.forEach(parque => {
+
+  const marker = L.marker(
+    [parque.latitud, parque.longitud], { icon: crearPin("#FFD600") }).addTo(mapa);
+
+  marker.on("click", () => {
+
+    parqueSeleccionado = parque;
+
+    nombre.textContent = parque.nombre;
+
+    dir.textContent =
+      "📍 " + parque.direccion;
+
+    hora.textContent =
+      "🕘 " + parque.horario;
+
+    cabanas.textContent =
+      parque.tieneCabanas
+        ? "🏠 Tiene cabañas"
+        : "⛺ Solo camping";
+
+    capacidad.textContent =
+      parque.tieneCabanas
+        ? `Capacidad: ${parque.capacidadCabanas} cabañas · ${parque.capacidadCamping} camping`
+        : `Capacidad camping: ${parque.capacidadCamping}`;
+
+    svcs.innerHTML =
+      parque.servicios
+        .split(",")
+        .map(
+          s =>
+          `<span class="badge-service">
+            ${s.trim()}
+          </span>`
+        )
+        .join("");
+
+    btn.style.display = "block";
+  });
+
+});
+
+/* ---------- modal ---------- */
+
+btn.addEventListener("click", e => {
+
+  e.preventDefault();
+
+  if (!parqueSeleccionado)
+    return;
+
+  document.getElementById(
+    "modal-nombre"
+  ).textContent =
+    parqueSeleccionado.nombre;
+
+  document.getElementById(
+    "modal-dir"
+  ).textContent =
+    "📍 " + parqueSeleccionado.direccion;
+
+  const select =
+    document.getElementById(
+      "modal-tipo"
+    );
+
+  select.innerHTML =
+    parqueSeleccionado.tieneCabanas
+      ? `
+      <option value="CAMPING">
+        ⛺ Camping
+      </option>
+
+      <option value="CABANA">
+        🏠 Cabaña
+      </option>
+      `
+      : `
+      <option value="CAMPING">
+        ⛺ Camping
+      </option>
+      `;
+
+  document.getElementById(
+    "form-reserva"
+  ).action =
+    `/reservar/${parqueSeleccionado.id}/`;
+
+  document.getElementById(
+    "modal-reserva"
+  ).style.display = "flex";
+
+});
+
+/* ---------- cerrar modal ---------- */
+
+document
+.getElementById("modal-cerrar")
+.addEventListener("click", () => {
+
+  document.getElementById(
+    "modal-reserva"
+  ).style.display = "none";
+
+});
+
+document
+.getElementById("modal-reserva")
+.addEventListener("click", e => {
+
+  if (e.target === e.currentTarget)
+    document.getElementById(
+      "modal-reserva"
+    ).style.display = "none";
+
+});
+
+</script>
+{% endblock %}

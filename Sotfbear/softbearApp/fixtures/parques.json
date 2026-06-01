@@ -1,0 +1,287 @@
+[
+  {
+    "model": "softbearApp.parque",
+    "pk": 2,
+    "fields": {
+      "nombre": "Piedra Canteada",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Cabaña,Camping,Guías",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 10,
+      "capacidad_camping": 30,
+      "latitud": 19.4923,
+      "longitud": -98.5367
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 3,
+    "fields": {
+      "nombre": "Santuario Luciérnaga",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Camping,Comedor",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 40,
+      "latitud": 19.4923,
+      "longitud": -98.5367
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 4,
+    "fields": {
+      "nombre": "Bosque de Encinos",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 00:00",
+      "servicios": "Cabaña,Camping",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 8,
+      "capacidad_camping": 25,
+      "latitud": 19.5008,
+      "longitud": -98.5571
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 5,
+    "fields": {
+      "nombre": "Valle Estelar",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Camping,Sendero",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 35,
+      "latitud": 19.6160,
+      "longitud": -98.1180
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 6,
+    "fields": {
+      "nombre": "Mirador Lumi",
+      "direccion": "Calpulalpan, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Cabaña,Camping,Restaurante",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 15,
+      "capacidad_camping": 20,
+      "latitud": 19.5885,
+      "longitud": -98.5698
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 7,
+    "fields": {
+      "nombre": "Refugio del Bosque",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:00 – 22:00",
+      "servicios": "Camping,Fogatas,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 50,
+      "latitud": 19.4950,
+      "longitud": -98.5400
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 8,
+    "fields": {
+      "nombre": "Cabañas Encanto",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Cabaña,Restaurante,Estacionamiento",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 20,
+      "capacidad_camping": 0,
+      "latitud": 19.5100,
+      "longitud": -98.5600
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 9,
+    "fields": {
+      "nombre": "Sendero de Luz",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Camping,Sendero,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 30,
+      "latitud": 19.6200,
+      "longitud": -98.1200
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 10,
+    "fields": {
+      "nombre": "Santuario del Cielo",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 00:00",
+      "servicios": "Camping,Observación Astronómica",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 20,
+      "latitud": 19.5200,
+      "longitud": -98.5700
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 11,
+    "fields": {
+      "nombre": "Paraíso Verde",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:30 – 22:30",
+      "servicios": "Cabaña,Camping,Restaurante",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 5,
+      "capacidad_camping": 60,
+      "latitud": 19.4980,
+      "longitud": -98.5300
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 12,
+    "fields": {
+      "nombre": "Rincón de las Luciérnagas",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Camping,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 40,
+      "latitud": 19.6000,
+      "longitud": -98.1000
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 13,
+    "fields": {
+      "nombre": "Bosque Esmeralda",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:00 – 22:00",
+      "servicios": "Cabaña,Camping,Guías",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 12,
+      "capacidad_camping": 40,
+      "latitud": 19.4910,
+      "longitud": -98.5350
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 14,
+    "fields": {
+      "nombre": "Nido de Luciérnagas",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Camping,Fogatas",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 25,
+      "latitud": 19.5150,
+      "longitud": -98.5750
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 15,
+    "fields": {
+      "nombre": "Vereda del Sol",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Cabaña,Restaurante,Sendero",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 6,
+      "capacidad_camping": 30,
+      "latitud": 19.6100,
+      "longitud": -98.1100
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 16,
+    "fields": {
+      "nombre": "Cumbres de Tlaxcala",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 00:00",
+      "servicios": "Camping,Observación",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 50,
+      "latitud": 19.5300,
+      "longitud": -98.5800
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 17,
+    "fields": {
+      "nombre": "Jardín del Valle",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:30 – 22:30",
+      "servicios": "Cabaña,Estacionamiento",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 10,
+      "capacidad_camping": 0,
+      "latitud": 19.4970,
+      "longitud": -98.5450
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 18,
+    "fields": {
+      "nombre": "Sendero Místico",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Camping,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 35,
+      "latitud": 19.6050,
+      "longitud": -98.1050
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 19,
+    "fields": {
+      "nombre": "Oasis Nocturno",
+      "direccion": "Calpulalpan, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Cabaña,Camping,Restaurante",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 8,
+      "capacidad_camping": 25,
+      "latitud": 19.5900,
+      "longitud": -98.5750
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 20,
+    "fields": {
+      "nombre": "Bosque Lux",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 23:30",
+      "servicios": "Camping,Fogatas,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 45,
+      "latitud": 19.5250,
+      "longitud": -98.5650
+    }
+  }
+]

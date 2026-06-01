@@ -1,0 +1,111 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Mis reservaciones · Festival Quetzalcoalt 2026{% endblock %}
+
+{% block content %}
+
+<section class="section reservas-section">
+  <h1 class="page-title">
+    Mis <span class="text-primary text-glow">reservaciones</span>
+  </h1>
+  <p class="page-sub">Tus próximas noches mágicas 🌌</p>
+
+  <div class="reservas-list">
+
+    {% for reserva in reservas %}
+    <article class="glass-card reserva-card">
+
+      <div class="reserva-info">
+        <span class="reserva-tipo text-accent text-neon">
+          {{ reserva.get_tipo_visita_display }}
+        </span>
+        <h2 class="reserva-parque">{{ reserva.parque.nombre }}</h2>
+        <p class="reserva-meta">
+          📍 {{ reserva.parque.direccion }}
+        </p>
+        <p class="reserva-meta">
+          📅 {{ reserva.fecha_inicio|date:"d/m/Y" }} → {{ reserva.fecha_termino|date:"d/m/Y" }} ·
+          👥 {{ reserva.num_personas }} persona{{ reserva.num_personas|pluralize }}
+        </p>
+        <p class="reserva-meta">
+          Estado:
+          <span class="reserva-estado {% if reserva.estado == 'ACTIVA' %}estado-activa{% else %}estado-cancelada{% endif %}">
+            {{ reserva.get_estado_display }}
+          </span>
+        </p>
+      </div>
+
+      <div class="reserva-actions">
+        {% if reserva.estado == 'ACTIVA' %}
+        <button type="button" class="btn-danger btn-sm"
+                onclick="abrirModalCancelar({{ reserva.id }})">
+          Cancelar
+        </button>
+        {% else %}
+        <span class="reserva-cancelada-label">Cancelada</span>
+        {% endif %}
+      </div>
+
+    </article>
+    {% empty %}
+
+    <div class="glass-card empty-state">
+      <div class="empty-icon">🌑</div>
+      <h3 class="empty-title">Aún no tienes reservas</h3>
+      <p class="empty-desc">
+        Explora los parques y reserva tu primera noche mágica.
+      </p>
+      <a href="{% url 'parques' %}" class="btn-primary">
+        Ver parques →
+      </a>
+    </div>
+
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Modal cancelar reserva -->
+<div class="modal-overlay" id="modal-cancelar" style="display:none;">
+  <div class="glass-card modal-card">
+    <button class="modal-close" onclick="cerrarModalCancelar()">✕</button>
+
+    <div style="text-align:center;">
+      <div class="empty-icon">🌑</div>
+      <h3 class="empty-title" style="margin-top:0.5rem;">¿Cancelar reservación?</h3>
+      <p class="empty-desc">Esta acción no se puede deshacer y liberará tu lugar.</p>
+    </div>
+
+    <form method="post" id="form-cancelar" action="">
+      {% csrf_token %}
+      <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+        <button type="button" class="btn-ghost btn-full"
+                onclick="cerrarModalCancelar()">
+          Mantener reserva
+        </button>
+        <button type="submit" class="btn-danger btn-full">
+          Sí, cancelar
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function abrirModalCancelar(reservaId) {
+    document.getElementById("form-cancelar").action = `/reservaciones/${reservaId}/cancelar/`;
+    document.getElementById("modal-cancelar").style.display = "flex";
+  }
+
+  function cerrarModalCancelar() {
+    document.getElementById("modal-cancelar").style.display = "none";
+  }
+
+  document.getElementById("modal-cancelar").addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) cerrarModalCancelar();
+  });
+</script>
+{% endblock %}

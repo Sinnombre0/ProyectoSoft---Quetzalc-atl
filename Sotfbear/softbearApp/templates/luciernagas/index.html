@@ -1,0 +1,254 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Festival Internacional de las Luciérnagas 2026{% endblock %}
+
+{% block content %}
+
+  <!-- HERO  -->
+  <section class="section hero-section">
+    <div class="hero-grid">
+
+      <!-- Texto -->
+      <div class="hero-text animate-fade-in">
+        <span class="badge-pill">
+          <span class="firefly-dot tiny pulse"></span>
+          Edición 2026 · Junio – Agosto
+        </span>
+
+        <h1 class="hero-title">
+          "El cielo estrellado es el manto del universo, donde cada  
+          <span class="text-primary text-glow">luz</span> es un latido de los dioses."
+        </h1>
+
+        <p class="hero-desc">
+          Realiza tu reservacion en alguno de los parques oficiales del Festival Internacional
+          de las Luciérnagas. Visualiza nuestro mapa interactivo, administra tu hospedaje en cabañas 
+          y camping en un solo lugar ✨
+        </p>
+
+        <div class="hero-ctas">
+          <a href="{% url 'parques' %}" class="btn-primary btn-lg">
+            Explorar parques →
+          </a>
+          <a href="{% url 'registro' %}" class="btn-accent btn-lg">
+            Crear cuenta
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="glass-card stat-card">
+            <span class="stat-value text-primary text-glow">6+</span>
+            <span class="stat-label">Parques</span>
+          </div>
+          <div class="glass-card stat-card">
+            <span class="stat-value text-primary text-glow">3</span>
+            <span class="stat-label">Meses</span>
+          </div>
+          <div class="glass-card stat-card">
+            <span class="stat-value text-primary text-glow">∞</span>
+            <span class="stat-label">Luciérnagas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mascota grande en hero -->
+      <div class="hero-mascot">
+
+  <svg
+    class="hero-mascot-svg"
+    viewBox="0 0 300 300"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+
+    <defs>
+
+      <radialGradient id="heroAbdomenGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#fffbd1"/>
+        <stop offset="35%" stop-color="#fff176"/>
+        <stop offset="70%" stop-color="#ffee58"/>
+        <stop offset="100%" stop-color="#ffd600"/>
+      </radialGradient>
+
+      <linearGradient id="heroBodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#5a32ff"/>
+        <stop offset="100%" stop-color="#9d4edd"/>
+      </linearGradient>
+
+      <linearGradient id="heroWingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#3bbcff"/>
+        <stop offset="100%" stop-color="#6f6cff"/>
+      </linearGradient>
+
+      <filter id="heroGlow">
+        <feGaussianBlur stdDeviation="12" result="blur"/>
+
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+
+    </defs>
+
+    <!-- Ala izquierda -->
+    <ellipse
+      class="wing-left"
+      cx="110"
+      cy="110"
+      rx="75"
+      ry="28"
+      fill="url(#heroWingGradient)"
+      opacity="0.82"
+      transform="rotate(-25 110 110)"
+    />
+
+    <!-- Ala derecha -->
+    <ellipse
+      class="wing-right"
+      cx="190"
+      cy="110"
+      rx="75"
+      ry="28"
+      fill="url(#heroWingGradient)"
+      opacity="0.82"
+      transform="rotate(25 190 110)"
+    />
+
+    <!-- Cuerpo -->
+    <ellipse
+      cx="150"
+      cy="150"
+      rx="28"
+      ry="58"
+      fill="url(#heroBodyGradient)"
+    />
+
+    <!-- Cuello -->
+    <ellipse
+      cx="150"
+      cy="110"
+      rx="16"
+      ry="12"
+      fill="#874dff"
+    />
+
+    <!-- Cabeza -->
+    <circle
+      cx="150"
+      cy="82"
+      r="24"
+      fill="#8b5cf6"
+    />
+
+    <!-- Ojos -->
+    <circle cx="142" cy="80" r="3" fill="#f8f9fa"/>
+    <circle cx="158" cy="80" r="3" fill="#f8f9fa"/>
+
+    <!-- Antenas -->
+    <path
+      d="M138 60 Q120 35 100 45"
+      stroke="#b388ff"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M162 60 Q180 35 200 45"
+      stroke="#b388ff"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"
+    />
+
+    <!-- Patas -->
+    <line x1="128" y1="145" x2="110" y2="165"
+      stroke="#9d6bff"
+      stroke-width="4"
+      stroke-linecap="round"/>
+
+    <line x1="128" y1="165" x2="110" y2="190"
+      stroke="#9d6bff"
+      stroke-width="4"
+      stroke-linecap="round"/>
+
+    <line x1="172" y1="145" x2="190" y2="165"
+      stroke="#9d6bff"
+      stroke-width="4"
+      stroke-linecap="round"/>
+
+    <line x1="172" y1="165" x2="190" y2="190"
+      stroke="#9d6bff"
+      stroke-width="4"
+      stroke-linecap="round"/>
+
+    <!-- Abdomen -->
+    <ellipse
+      cx="150"
+      cy="225"
+      rx="38"
+      ry="56"
+      fill="url(#heroAbdomenGlow)"
+      filter="url(#heroGlow)"
+      class="glow-abdomen"
+    />
+
+  </svg>
+
+</div>
+    </div>
+  </section>
+
+  <!--  FEATURES  -->
+  <section class="section features-section">
+    <h2 class="section-title text-center">
+      Una experiencia para conectar con la naturaleza llena de <span class="text-accent text-neon">luz y color</span> 
+    </h2>
+    <div class="features-grid">
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3 class="feature-title">Mapa interactivo</h3>
+        <p class="feature-desc">
+          Localiza cada parque oficial con pines luminosos. Selecciona uno para ver los
+          servicios, horario y dirección que ofrece.
+        </p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon">🏕️</div>
+        <h3 class="feature-title">Cabaña o camping</h3>
+        <p class="feature-desc">
+          Elige el tipo de estancia que mejor se acomode. Disponibilidad en
+          tiempo real, sin sobre-reservas.
+        </p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon">📧</div>
+        <h3 class="feature-title">Confirmación al instante</h3>
+        <p class="feature-desc">
+          Recibe la confirmación de tu reserva por correo en menos de 2 minutos. Cancela cuando
+          quieras desde la comodidad de tu cuenta.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!--  CTA  -->
+  <section class="section cta-section">
+    <div class="glass-card cta-card">
+      <div class="cta-glow-bg"></div>
+      <h3 class="cta-title">¿Listo para brillar?</h3>
+      <p class="cta-desc">
+        Únete a miles de viajeros que ya tienen su lugar reservado.
+      </p>
+      <a href="{% url 'registro' %}" class="btn-primary btn-lg">
+        Empezar gratis ✨
+      </a>
+    </div>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "luciernagas/base.html" %}
+
+{% block title %}Iniciar sesión · Festival Quetzalcoatl 2026{% endblock %}
+
+{% block content %}
+
+  <section class="section auth-section">
+    <h1 class="auth-title text-glow">Bienvenido de vuelta</h1>
+    <p class="auth-sub">Las luciérnagas te estaban esperando 🌙</p>
+
+    <div class="glass-card auth-card">
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}" class="auth-form">
+        {% csrf_token %}
+
+        <label class="field-label">
+          <span class="field-name">Correo electrónico</span>
+          <input
+                  name="username"
+                  placeholder="tu@correo.com"
+                  class="field-input {% if form.username.errors %}field-input--error{% endif %}"
+                  autocomplete="email"
+                  value="{{ form.username.value|default:'' }}"
+                  required
+          />
+          {% if form.username.errors %}
+          <span class="field-error">{{ form.username.errors.0 }}</span>
+          {% endif %}
+        </label>
+
+        <label class="field-label">
+          <span class="field-name">Contraseña</span>
+          <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  class="field-input {% if form.password.errors %}field-input--error{% endif %}"
+                  autocomplete="current-password"
+                  required
+          />
+          {% if form.password.errors %}
+          <span class="field-error">{{ form.password.errors.0 }}</span>
+          {% endif %}
+        </label>
+
+        <button type="submit" class="btn-primary btn-full">
+          Iniciar sesión ✨
+        </button>
+
+        <p class="auth-footer-text">
+          ¿No tienes cuenta?
+          <a href="{% url 'registro' %}" class="link-accent">Regístrate</a>
+        </p>
+
+      </form>
+    </div>
+  </section>
+
+{% endblock %}
