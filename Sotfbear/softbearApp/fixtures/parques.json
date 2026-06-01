@@ -73,5 +73,95 @@
       "latitud": 19.5885,
       "longitud": -98.5698
     }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 7,
+    "fields": {
+      "nombre": "Refugio del Bosque",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:00 – 22:00",
+      "servicios": "Camping,Fogatas,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 50,
+      "latitud": 19.4950,
+      "longitud": -98.5400
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 8,
+    "fields": {
+      "nombre": "Cabañas Encanto",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Cabaña,Restaurante,Estacionamiento",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 20,
+      "capacidad_camping": 0,
+      "latitud": 19.5100,
+      "longitud": -98.5600
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 9,
+    "fields": {
+      "nombre": "Sendero de Luz",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:30 – 23:30",
+      "servicios": "Camping,Sendero,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 30,
+      "latitud": 19.6200,
+      "longitud": -98.1200
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 10,
+    "fields": {
+      "nombre": "Santuario del Cielo",
+      "direccion": "Tlaxco, Tlaxcala",
+      "horario": "21:00 – 00:00",
+      "servicios": "Camping,Observación Astronómica",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 20,
+      "latitud": 19.5200,
+      "longitud": -98.5700
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 11,
+    "fields": {
+      "nombre": "Paraíso Verde",
+      "direccion": "Nanacamilpa, Tlaxcala",
+      "horario": "19:30 – 22:30",
+      "servicios": "Cabaña,Camping,Restaurante",
+      "tiene_cabanas": true,
+      "capacidad_cabanas": 5,
+      "capacidad_camping": 60,
+      "latitud": 19.4980,
+      "longitud": -98.5300
+    }
+  },
+  {
+    "model": "softbearApp.parque",
+    "pk": 12,
+    "fields": {
+      "nombre": "Rincón de las Luciérnagas",
+      "direccion": "San Felipe, Tlaxcala",
+      "horario": "20:00 – 23:00",
+      "servicios": "Camping,Guías",
+      "tiene_cabanas": false,
+      "capacidad_cabanas": 0,
+      "capacidad_camping": 40,
+      "latitud": 19.6000,
+      "longitud": -98.1000
+    }
   }
 ]
