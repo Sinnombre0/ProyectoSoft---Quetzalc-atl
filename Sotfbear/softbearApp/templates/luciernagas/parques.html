@@ -161,6 +161,15 @@ const parques = [
 ];
 console.log("Parques cargados:", parques);
 
+function crearPin(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="pin-marcador" style="background-color: ${color};"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 24],
+    popupAnchor: [0, -28]
+  });
+}
 
 /* ---------- markers ---------- */
 
@@ -168,7 +177,7 @@ console.log("Parques cargados:", parques);
 parques.forEach(parque => {
 
   const marker = L.marker(
-    [parque.latitud, parque.longitud]).addTo(mapa);
+    [parque.latitud, parque.longitud], { icon: crearPin("#FFD600") }).addTo(mapa);
 
   marker.on("click", () => {
 
