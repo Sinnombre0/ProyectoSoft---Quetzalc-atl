@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from .models import Parque, Reservacion
+from . import services
 
 from datetime import date, datetime, timedelta
 
@@ -91,57 +92,22 @@ def reservar(request, parque_id):
         ft = datetime.strptime(fecha_termino, '%Y-%m-%d').date()
 
         # 1. Validar orden de fechas primero
-        if fi > ft:
-            messages.error(request, 'La fecha de salida no puede ser anterior a la de entrada.')
-            return redirect('parques')
-
         # 2. Validar junio-agosto (solo mes, independiente del año)
-        if not (6 <= fi.month <= 8) or not (6 <= ft.month <= 8):
-            messages.error(request, 'Solo se puede reservar entre junio y agosto.')
-            return redirect('parques')
-
         # 3. Validar que ningún día del rango sea martes
-        fecha_actual = fi
-        while fecha_actual <= ft:
-            if fecha_actual.weekday() == 1:
-                messages.error(request, 'Tu estancia incluye un martes, día de mantenimiento. Por favor elige otras fechas.')
-                return redirect('parques')
-            fecha_actual += timedelta(days=1)
-
-        # 4. Validar que el parque tenga cabañas si se pide cabaña
-        if tipo_visita == 'CABANA' and not parque.tiene_cabanas:
-            messages.error(request, 'Este parque no tiene cabañas.')
+        error = services.validar_fechas(fi, ft)
+        if error:
+            messages.error(request, error)
             return redirect('parques')
-
+        
+        # 4. Validar que el parque tenga cabañas si se pide cabaña
         # 5. Calcular disponibilidad por fechas (traslape)
-        reservas_solapadas = Reservacion.objects.filter(
-            parque             = parque,
-            estado             = 'ACTIVA',
-            tipo_visita        = tipo_visita,
-            fecha_inicio__lte  = ft,
-            fecha_termino__gte = fi,
-        )
-        personas_ocupadas = reservas_solapadas.aggregate(
-            total=Sum('num_personas')
-        )['total'] or 0
-
-        capacidad_total = parque.capacidad_cabanas if tipo_visita == 'CABANA' else parque.capacidad_camping
-
-        if personas_ocupadas + num_personas > capacidad_total:
-            disponible = capacidad_total - personas_ocupadas
-            messages.error(request, f'Solo hay {disponible} lugares disponibles para esas fechas.')
+        error = services.validar_disponibilidad(parque, fi, ft, tipo_visita, num_personas)
+        if error:
+            messages.error(request, error)
             return redirect('parques')
 
         # Crear reservación
-        Reservacion.objects.create(
-            usuario      = request.user,
-            parque       = parque,
-            fecha_inicio = fi,
-            fecha_termino= ft,
-            num_personas = num_personas,
-            tipo_visita  = tipo_visita,
-            estado       = 'ACTIVA',
-        )
+        services.crear_reservacion(request.user, parque, fi, ft, num_personas, tipo_visita)
 
         messages.success(request, f'¡Reserva en {parque.nombre} confirmada! 🌟')
         return redirect('mis_reservaciones')
