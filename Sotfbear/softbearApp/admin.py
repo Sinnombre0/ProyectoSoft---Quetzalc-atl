@@ -29,7 +29,7 @@ class ParqueAdmin(admin.ModelAdmin):
             'description': 'Define las limitantes físicas para campamentos o cabañas disponibles.',
         }),
         ('Coordenadas de Interfaz (Mapa)', {
-            'fields': ('x', 'y'),
+            'fields': ('latitud', 'longitud'),
             'description': 'Porcentajes de ubicación (0-100) del pin luminoso dentro de la interfaz web.',
         }),
     )
