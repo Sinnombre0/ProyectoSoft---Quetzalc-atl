@@ -46,8 +46,8 @@ def crear_parque(nombre='Parque Test', tiene_cabanas=True,
 
 
 # Creamos diferentes fechas para verificar que los martes no se podra hacer reservaciones
-LUNES_JUNIO   = date(2025, 6, 2)   # lunes
-MIERCOLES_JUNIO = date(2025, 6, 4) # miércoles
+LUNES_JUNIO     = date(2025, 6, 5)   
+MIERCOLES_JUNIO = date(2025, 6, 9) 
 MARTES_JUNIO  = date(2025, 6, 3)   # martes — mantenimiento
 FECHA_MAYO    = date(2025, 5, 15)  # fuera de tiempo
 

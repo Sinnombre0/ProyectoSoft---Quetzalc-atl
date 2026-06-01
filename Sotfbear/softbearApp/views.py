@@ -90,7 +90,17 @@ def reservar(request, parque_id):
         fi = datetime.strptime(fecha_inicio, '%Y-%m-%d').date()
         ft = datetime.strptime(fecha_termino, '%Y-%m-%d').date()
 
-        # Validar que ningún día del rango sea martes
+        # 1. Validar orden de fechas primero
+        if fi > ft:
+            messages.error(request, 'La fecha de salida no puede ser anterior a la de entrada.')
+            return redirect('parques')
+
+        # 2. Validar junio-agosto (solo mes, independiente del año)
+        if not (6 <= fi.month <= 8) or not (6 <= ft.month <= 8):
+            messages.error(request, 'Solo se puede reservar entre junio y agosto.')
+            return redirect('parques')
+
+        # 3. Validar que ningún día del rango sea martes
         fecha_actual = fi
         while fecha_actual <= ft:
             if fecha_actual.weekday() == 1:
@@ -98,22 +108,12 @@ def reservar(request, parque_id):
                 return redirect('parques')
             fecha_actual += timedelta(days=1)
 
-        # Validar junio-agosto
-        if not (6 <= fi.month <= 8) or not (6 <= ft.month <= 8):
-            messages.error(request, 'Solo se puede reservar entre junio y agosto.')
-            return redirect('parques')
-
-        # Validar fechas
-        if fi > ft:
-            messages.error(request, 'La fecha de salida no puede ser anterior a la de entrada.')
-            return redirect('parques')
-
-        # Validar que el parque tenga cabañas si se pide cabaña
+        # 4. Validar que el parque tenga cabañas si se pide cabaña
         if tipo_visita == 'CABANA' and not parque.tiene_cabanas:
             messages.error(request, 'Este parque no tiene cabañas.')
             return redirect('parques')
 
-        # Calcular disponibilidad por fechas (traslape)
+        # 5. Calcular disponibilidad por fechas (traslape)
         reservas_solapadas = Reservacion.objects.filter(
             parque             = parque,
             estado             = 'ACTIVA',
